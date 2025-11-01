@@ -26,13 +26,26 @@
 // }
 
 //menggunakan ternary operator
+// export default function Todo({text, isCompleted, isDeleted = false}) {
+//     if (isDeleted) {
+//         return null
+//     } else {
+//         return (
+//             <li>
+//                 {isCompleted ? <del>{text}</del> : text}
+//             </li>
+//         )
+//     }
+// }
+
+//menggunakan logika and
 export default function Todo({text, isCompleted, isDeleted = false}) {
     if (isDeleted) {
         return null
     } else {
         return (
             <li>
-                {isCompleted ? <del>{text}</del> : text}
+                {text} {isCompleted && "✅"}
             </li>
         )
     }
