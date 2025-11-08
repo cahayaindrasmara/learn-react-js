@@ -3,7 +3,7 @@ export default function FormSearch() {
         <form action="">
             <input type="text" name="" id="" />
             <button onClick={(e) => {
-                // e.preventDefault();
+                e.preventDefault();
                 alert("You Search")
             }}>
                 Search
