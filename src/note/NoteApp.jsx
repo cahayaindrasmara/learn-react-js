@@ -2,6 +2,7 @@
 import { useImmerReducer } from "use-immer";
 import NoteForm from "./NoteForm";
 import NoteList from "./NoteList";
+import { DispatchContext, NotesContext } from "./NoteContect";
 // import { act, useReducer } from "react";
 
 let id = 0;
@@ -54,21 +55,21 @@ let initialNotes = [
 // }
 
 //useImmerReducer
-function notesReducer(notes, action){
-    if (action.type === "ADD_NOTE") {
-        notes.push(({
-            id: id++,
-            text: action.text,
-            done:false
-        }))
-    } else if (action.type === "CHANGE_NOTE") {
-        const index = notes.findIndex(note => note.id === action.id);
-        notes[index].text = action.text;
-        notes[index].done = action.done;
-    } else if (action.type === "DELETE_NOTE") {
-        const index = notes.findIndex(note => note.id === action.id);
-        notes.splice(index, 1)
-    }
+function notesReducer(notes, action) {
+  if (action.type === "ADD_NOTE") {
+    notes.push({
+      id: id++,
+      text: action.text,
+      done: false,
+    });
+  } else if (action.type === "CHANGE_NOTE") {
+    const index = notes.findIndex((note) => note.id === action.id);
+    notes[index].text = action.text;
+    notes[index].done = action.done;
+  } else if (action.type === "DELETE_NOTE") {
+    const index = notes.findIndex((note) => note.id === action.id);
+    notes.splice(index, 1);
+  }
 }
 
 export default function NoteApp() {
@@ -102,38 +103,52 @@ export default function NoteApp() {
   //   const [notes, dispatch] = useReducer(notesReducer, initialNotes);
 
   //useImmerReducer
-  const [notes, dispatch] = useImmerReducer(notesReducer, initialNotes)
+  // const [notes, dispatch] = useImmerReducer(notesReducer, initialNotes)
 
-  function handleAddNote(text) {
-    dispatch({
-      type: "ADD_NOTE",
-      text: text,
-    });
-  }
+  // function handleAddNote(text) {
+  //   dispatch({
+  //     type: "ADD_NOTE",
+  //     text: text,
+  //   });
+  // }
 
-  function handleChangeNote(note) {
-    dispatch({
-      type: "CHANGE_NOTE",
-      ...note,
-    });
-  }
+  // function handleChangeNote(note) {
+  //   dispatch({
+  //     type: "CHANGE_NOTE",
+  //     ...note,
+  //   });
+  // }
 
-  function handleDeleteNote(note) {
-    dispatch({
-      type: "DELETE_NOTE",
-      id: note.id,
-    });
-  }
+  // function handleDeleteNote(note) {
+  //   dispatch({
+  //     type: "DELETE_NOTE",
+  //     id: note.id,
+  //   });
+  // }
+
+  //use immerReducer contect
+  const [notes, dispatch] = useImmerReducer(notesReducer, initialNotes);
 
   return (
     <>
-      <h1>Note App</h1>
+      {/* <h1>Note App</h1>
       <NoteForm onSubmit={handleAddNote} />
       <NoteList
         notes={notes}
         onChange={handleChangeNote}
         onDelete={handleDeleteNote}
-      />
+      /> */}
+
+      {/* //use contect immer reducer */}
+      <NotesContext.Provider value={notes}>
+        <DispatchContext.Provider value={dispatch}>
+          <h1>No</h1>
+          <NoteForm/>
+          <NoteList/>
+
+          
+        </DispatchContext.Provider>
+      </NotesContext.Provider>
     </>
   );
 }
